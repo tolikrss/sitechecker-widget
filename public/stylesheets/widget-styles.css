@@ -35,7 +35,6 @@
 }
 .scw__input {
     height: 100%;
-    margin-right: auto;
     outline: none;
     border: none;
     flex: 1;
@@ -46,7 +45,6 @@
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 300;
-    line-height: normal;
     font-size: 14px;
     color: #999;
 }
