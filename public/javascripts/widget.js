@@ -68,6 +68,9 @@
 				const a = document.createElement('a');
 				a.href = 'https://sitechecker.pro/seo-report/' + encodeURIComponent(_input.value);
 				a.target = '_blank';
+				a.style.position = 'absolute';
+				a.style.left = '-9999px';
+				document.querySelector('body').appendChild(a);
 				a.click();
 			});
 
