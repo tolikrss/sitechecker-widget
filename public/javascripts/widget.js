@@ -98,11 +98,11 @@
 		rootElement.appendChild(formWrapper);
 	};
 
-	if (
-		document.readyState === 'complete'
+	const idDOMReady = document.readyState === 'complete'
 		|| document.readyState === 'loaded'
-		|| document.readyState === 'interactive'
-	) {
+		|| document.readyState === 'interactive';
+
+	if ( idDOMReady ) {
 		initSCW();
 	} else {
 		document.addEventListener('DOMContentLoaded', function (event) {
