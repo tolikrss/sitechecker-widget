@@ -1,4 +1,58 @@
 (function () {
+
+	const Utils = (function () {
+
+		/**
+		 * Get elements by classname and return Array of them
+		 *
+		 * @param {string} className
+		 */
+		const _getElementsArrayByClass = function (className) {
+			try {
+				const elements = Array.from(document.getElementsByClassName(className));
+				return elements.length ? elements : [];
+			} catch (err) {
+				return [];
+			}
+		};
+		/**
+		 * Get element computed style
+		 *
+		 * @param {HTMLElement} element
+		 * @param {string} styleName
+		 * @return string
+		 */
+		const _getComputedStyle = function (element, styleName) {
+			try {
+				return window.getComputedStyle(element, null).getPropertyValue(styleName);
+			} catch (err) {
+				console.warn('Can not get computed styles!', err);
+			}
+		};
+
+		/**
+		 *  @param {string} str - string for copying
+		 */
+		const _copyToClipboard = function (str) {
+			const el = document.createElement('textarea');
+			el.setAttribute('readonly', '');
+			el.style.position = 'absolute';
+			el.style.left = '-9999px';
+			el.value = str;
+
+			document.body.appendChild(el);
+			el.select();
+			document.execCommand('copy');
+			document.body.removeChild(el);
+		};
+
+		return Object.freeze({
+			getElementsArrayByClass: _getElementsArrayByClass,
+			getComputedStyle: _getComputedStyle,
+			copyToClipboard: _copyToClipboard,
+		});
+	}());
+
 	function wpWidgetPageLogic() {
 		const host = location.origin;
 		const newLine = '\n';
@@ -74,59 +128,6 @@
 			});
 
 	}
-
-	const Utils = (function () {
-
-		/**
-		 * Get elements by classname and return Array of them
-		 *
-		 * @param {string} className
-		 */
-		const _getElementsArrayByClass = function (className) {
-			try {
-				const elements = Array.from(document.getElementsByClassName(className));
-				return elements.length ? elements : [];
-			} catch (err) {
-				return [];
-			}
-		};
-		/**
-		 * Get element computed style
-		 *
-		 * @param {HTMLElement} element
-		 * @param {string} styleName
-		 * @return string
-		 */
-		const _getComputedStyle = function (element, styleName) {
-			try {
-				return window.getComputedStyle(element, null).getPropertyValue(styleName);
-			} catch (err) {
-				console.warn('Can not get computed styles!', err);
-			}
-		};
-
-		/**
-		 *  @param {string} str - string for copying
-		 */
-		const _copyToClipboard = function (str) {
-			const el = document.createElement('textarea');
-			el.setAttribute('readonly', '');
-			el.style.position = 'absolute';
-			el.style.left = '-9999px';
-			el.value = str;
-
-			document.body.appendChild(el);
-			el.select();
-			document.execCommand('copy');
-			document.body.removeChild(el);
-		};
-
-		return Object.freeze({
-			getElementsArrayByClass: _getElementsArrayByClass,
-			getComputedStyle: _getComputedStyle,
-			copyToClipboard: _copyToClipboard,
-		});
-	}());
 
 	/**
 	 * Main
