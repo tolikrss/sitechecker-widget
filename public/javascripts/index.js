@@ -143,11 +143,19 @@
 
 		profileTabs.forEach(function (el) {
 				el.addEventListener('click', function () {
+					const tab = el.getAttribute('select-profile-tab');
+
+					/**
+					 * set active tan
+					 */
 					profileTabs.forEach(function (el) {
 						el.classList.remove('widget-tabs__tab--active')
 					});
 					el.classList.add('widget-tabs__tab--active');
-					const tab = el.getAttribute('select-profile-tab');
+
+					/**
+					 * set active tab content
+					 */
 					Utils.getElementsArrayBySelector('[profile-tab]')
 						.forEach(function (el) {
 							el.style.display = 'none';
