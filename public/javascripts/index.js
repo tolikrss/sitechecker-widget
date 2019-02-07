@@ -15,6 +15,16 @@
 				return [];
 			}
 		};
+
+		const _getElementsArrayBySelector = function (selector) {
+			try {
+				const elements = Array.from(document.querySelectorAll(selector));
+				return elements.length ? elements : [];
+			} catch (err) {
+				return [];
+			}
+		};
+
 		/**
 		 * Get element computed style
 		 *
@@ -50,6 +60,7 @@
 			getElementsArrayByClass: _getElementsArrayByClass,
 			getComputedStyle: _getComputedStyle,
 			copyToClipboard: _copyToClipboard,
+			getElementsArrayBySelector: _getElementsArrayBySelector,
 		});
 	}());
 
@@ -125,6 +136,24 @@
 			.querySelector('.widget-code__btn')
 			.addEventListener('click', function (e) {
 				Utils.copyToClipboard(widgetCodeStr);
+			});
+
+		const profileTabs = Utils.getElementsArrayBySelector('[select-profile-tab]');
+
+
+		profileTabs.forEach(function (el) {
+				el.addEventListener('click', function () {
+					profileTabs.forEach(function (el) {
+						el.classList.remove('widget-tabs__tab--active')
+					});
+					el.classList.add('widget-tabs__tab--active');
+					const tab = el.getAttribute('select-profile-tab');
+					Utils.getElementsArrayBySelector('[profile-tab]')
+						.forEach(function (el) {
+							el.style.display = 'none';
+						});
+					Utils.getElementsArrayBySelector('[profile-tab=' + tab + ']')[0].style.display = 'flex';
+				});
 			});
 
 	}
