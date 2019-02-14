@@ -9,6 +9,16 @@ body {
     padding: 40px;
 }
 
+.cf:after {
+    display: table;
+    clear: both;
+    content: '';
+}
+
+.iframe-wrapper {
+
+}
+
 .widget-tabs {
     border-bottom: 2px solid #F5F5F5;
     display: flex;
@@ -26,6 +36,7 @@ body {
     margin-right: 25px;
     cursor: pointer;
 }
+
 .tab-content {
     display: flex;
     flex-direction: column;
