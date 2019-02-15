@@ -12,6 +12,8 @@
 		}
 		const host = rootElement.dataset.host;
 
+		const isOpenInIframe = !!+rootElement.dataset.iframe;
+
 		/**
 		 * Dynamically connect widget stylesheets
 		 */
@@ -65,6 +67,8 @@
 			_form.classList.add('scw__form');
 			_form.addEventListener('submit', function (e) {
 				e.preventDefault();
+				if (isOpenInIframe) return checkUrlInIframe(_input.value);
+
 				const a = document.createElement('a');
 				a.href = 'https://sitechecker.pro/seo-report/' + encodeURIComponent(_input.value);
 				a.target = '_blank';
@@ -91,18 +95,63 @@
 			return _wrapperEl;
 		};
 
+		function createPreloader() {
+			const _wrap = document.createElement('div');
+			_wrap.classList.add('scw__preloader');
+			_wrap.style.display = 'none';
+
+			const _el = document.createElement('div');
+			_el.classList.add('scw__preloader-ring');
+
+			new Array(3)
+				.fill(document.createElement('div'))
+				.forEach(el => _el.appendChild(el));
+			_wrap.appendChild(_el);
+
+			return _wrap;
+		}
+
 		const formWrapper = createWrapper();
 		const form = createForm();
+		const preloader = createPreloader();
 
 		formWrapper.appendChild(form);
 		rootElement.appendChild(formWrapper);
+		rootElement.appendChild(preloader);
+
+		function checkUrlInIframe(url) {
+			preloader.style.display = 'block';
+			const _iframe = document.createElement('iframe');
+			Object.assign(_iframe, {
+				width: '100%',
+				height: '100%',
+				frameborder: '0',
+				allowfullscreen: true,
+				name: 'iframe_sitechecker',
+				src: 'https://test.sitechecker.pro/seo-report/' + url,
+			});
+			Object.assign(_iframe.style, {
+				border: 'none',
+				overflow: 'hidden',
+				height: '100%',
+				width: '100%',
+				maxHeight: '80vh',
+			});
+
+			_iframe.addEventListener('load', function () {
+				preloader.style.display = 'none';
+			});
+
+			rootElement.appendChild(_iframe);
+			formWrapper.remove();
+		}
 	};
 
 	const idDOMReady = document.readyState === 'complete'
 		|| document.readyState === 'loaded'
 		|| document.readyState === 'interactive';
 
-	if ( idDOMReady ) {
+	if (idDOMReady) {
 		initSCW();
 	} else {
 		document.addEventListener('DOMContentLoaded', function (event) {
